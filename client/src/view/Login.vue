@@ -2,7 +2,7 @@
     <div class="container">
       <h1>Login</h1>
       <form @submit.prevent="login">
-        <input v-model="email" type="email" placeholder="E-mail" required />
+        <input v-model="email" type="email" placeholder="E-mail"  required />
         <input v-model="password" type="password" placeholder="Senha" required />
         <button type="submit">Entrar</button>
       </form>
@@ -17,8 +17,8 @@
     name: 'LoginView',
     data() {
       return {
-        email: '',
-        password: ''
+        email: 'admin@admin.com', //deixar vazio depois ''
+        password: '123456'
       }
     },
     methods: {
@@ -40,7 +40,8 @@
                 return;
             }
 
-            localStorage.setItem('auth', 'true')
+            localStorage.setItem('auth', 'true');
+            localStorage.setItem('userEmail', data.user.email);
             this.$router.push('/menu');
         } catch (err) {
           console.error(err);

@@ -40,7 +40,8 @@
           const data = await response.json();
           if (response.ok) {
             alert(data.message);
-            this.$router.push('/');
+            localStorage.setItem('auth', 'true');
+            this.$router.push('/menu');
           } else {
             alert(data.error || 'Erro ao cadastrar.');
           }

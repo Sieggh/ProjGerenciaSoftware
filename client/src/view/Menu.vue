@@ -1,7 +1,11 @@
 <template>
     <div>
-      <h1>Bem-vindo!</h1>
-      <button @click="logout">Sair</button>
+        <button @click="this.$router.push('/profile')">Perfil</button>
+        <button @click="logout">Sair</button>  
+      <div class="menu-content">
+        <h2>Bem-vindo ao Menu Principal</h2>
+        <p>Escolha uma opção no menu acima.</p>
+      </div>
     </div>
   </template>
   
@@ -18,10 +22,9 @@
   </script>
   
   <style scoped>
-  button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    cursor: pointer;
+  .menu-content {
+    text-align: center;
+    margin-top: 50px;
   }
-  </style>
   
+</style>
