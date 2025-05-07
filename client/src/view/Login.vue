@@ -1,28 +1,68 @@
 <template>
     <div class="container">
-      <h1>Vai escolhendo aí</h1>
-      <button @click="$router.push('/login')">Fazer Login</button>
+      <h1>Login</h1>
+      <form @submit.prevent="login">
+        <input v-model="email" type="email" placeholder="E-mail" required />
+        <input v-model="password" type="password" placeholder="Senha" required />
+        <button type="submit">Entrar</button>
+      </form>
+  
+      <p>Ainda não tem conta?</p>
       <button @click="$router.push('/register')">Cadastrar-se</button>
     </div>
   </template>
   
   <script>
   export default {
-    name: 'LoginView'
+    name: 'LoginView',
+    data() {
+      return {
+        email: '',
+        password: ''
+      }
+    },
+    methods: {
+      async login() {
+        try {
+          const response = await fetch('http://localhost:3000/api/users/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: this.email,
+              password: this.password
+            })
+          });
+  
+          const data = await response.json();
+  
+            if (!response.ok) {
+                alert(data.error || 'Falha no login');
+                return;
+            }
+
+            localStorage.setItem('auth', 'true')
+            this.$router.push('/menu');
+        } catch (err) {
+          console.error(err);
+          alert('Erro na requisição de login');
+        }
+      }
+    }
   }
   </script>
   
   <style scoped>
   .container {
+    max-width: 400px;
+    margin: 50px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 100px;
   }
-  button {
-    margin: 10px;
-    padding: 10px 20px;
-    cursor: pointer;
+  input, button {
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
   }
   </style>
-  
