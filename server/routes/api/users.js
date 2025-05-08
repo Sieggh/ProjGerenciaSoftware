@@ -1,22 +1,43 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../../models/user')
+const multer = require('multer');
+const path = require('path');
 
-router.post('/register', async (req, res) => {
-  const { name, email, password, phone, city, age } = req.body;
+// Configuração do destino e nome do arquivo
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../../uploads'));
+  },
+  filename: function (req, file, cb) {
+    const ext = path.extname(file.originalname);
+    cb(null, Date.now() + ext);
+  }
+});
+
+const upload = multer({ storage });
+
+router.post('/register', upload.single('profileImage'), async (req, res) => {
+  const { name, username, email, password, phone, city, age } = req.body;
+  const profileImage = req.file?.filename;
 
   try {
     // Verifica se o e-mail já existe
     const userExists = await User.findOne({ email });
     if (userExists) return res.status(400).json({ error: 'E-mail já cadastrado' });
 
+    const usernameExists = await User.findOne({ username });
+    if (usernameExists) return res.status(400).json({ error: 'Nome de usuário já cadastrado' });
+    
     const newUser = new User({
       name,
+      username,
       email,
       password,
       phone,
       city,
-      age
+      age,
+      profileImage
     });
 
     await newUser.save();
@@ -25,7 +46,8 @@ router.post('/register', async (req, res) => {
       message: 'Usuário cadastrado com sucesso',
       user: {
         name: newUser.name,
-        email: newUser.email
+        email: newUser.email,
+        profileImage: newUser.profileImage
       }
     });
 
@@ -47,7 +69,7 @@ router.post('/login', async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ error: 'Senha incorreta' });
 
-    res.status(200).json({ message: 'Login realizado com sucesso', user: { name: user.name, email: user.email } });
+    res.status(200).json({ message: 'Login realizado com sucesso', user: { name: user.name, email: user.email, profileImage: user.profileImage } });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Erro ao realizar login' });
@@ -108,6 +130,27 @@ router.put('/update-password', async (req, res) => {
   }
 });
 
+router.put('/update-username', async (req, res) => {
+  const { email, newUsername } = req.body;
+
+  const exists = await User.findOne({ username: newUsername });
+  if (exists) return res.status(400).json({ error: 'Nome de usuário já está em uso.' });
+
+  const user = await User.findOneAndUpdate({ email }, { username: newUsername }, { new: true });
+  if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
+
+  res.json({ message: 'Nome de usuário atualizado com sucesso', username: user.username });
+});
+
+router.put('/update-descricao', async (req, res) => {
+  const { email, descricao } = req.body;
+
+  const user = await User.findOneAndUpdate({ email }, { descricao }, { new: true });
+  if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
+
+  res.json({ message: 'Descrição atualizada com sucesso', descricao: user.descricao });
+});
+
 
 router.get('/me', async (req, res) => {
   const email = req.query.email;
@@ -116,6 +159,30 @@ router.get('/me', async (req, res) => {
   if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
 
   res.json(user);
+});
+
+router.put('/update-photo', upload.single('profileImage'), async (req, res) => {
+  const { email, useDefault } = req.body;
+
+  let newImage = 'default-avatar.jpg';
+  if (!useDefault && req.file?.filename) {
+    newImage = req.file.filename;
+  }
+
+  try {
+    const user = await User.findOneAndUpdate(
+      { email },
+      { profileImage: newImage },
+      { new: true }
+    );
+
+    if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
+
+    res.json({ message: 'Imagem atualizada', profileImage: user.profileImage });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erro ao atualizar imagem' });
+  }
 });
 
 router.delete('/delete', async (req, res) => {

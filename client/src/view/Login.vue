@@ -17,8 +17,8 @@
     name: 'LoginView',
     data() {
       return {
-        email: 'admin@admin.com', //deixar vazio depois ''
-        password: '123456'
+        email: 'adm@adm.com', //deixar vazio depois ''
+        password: '123456' //deixar vazio depois ''
       }
     },
     methods: {
@@ -42,7 +42,8 @@
 
             localStorage.setItem('auth', 'true');
             localStorage.setItem('userEmail', data.user.email);
-            this.$router.push('/menu');
+            localStorage.setItem('userImage', data.user.profileImage || '');
+            this.$router.replace('/menu');
         } catch (err) {
           console.error(err);
           alert('Erro na requisição de login');
