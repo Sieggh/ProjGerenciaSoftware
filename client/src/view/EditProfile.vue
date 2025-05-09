@@ -2,6 +2,9 @@
   <div class="back-button">
     <button @click="$router.back()">← Voltar</button>
   </div>
+  <div class="back-button">
+    <button @click="$router.push('/menu')">Menu</button>
+  </div>
   <div class="profile-image-container">
     <img
       v-if="originalUser.profileImage"

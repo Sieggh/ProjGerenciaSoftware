@@ -4,13 +4,15 @@ import RegisterView from '../view/Register.vue'
 import MenuView from '../view/Menu.vue'
 import EditProfileView from '../view/EditProfile.vue'
 import ProfileView from '../view/Profile.vue'
+import UserProfileView from '../view/UserProfile.vue'
 
 const routes = [
   { path: '/', component: LoginView },
   { path: '/register', component: RegisterView },
   { path: '/menu', component: MenuView },
   { path: '/editprofile', component: EditProfileView },
-  { path: '/profile', component: ProfileView }
+  { path: '/profile', component: ProfileView },
+  { path: '/user/:username', component: UserProfileView }
 ]
 
 const router = createRouter({

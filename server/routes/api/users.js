@@ -199,4 +199,34 @@ router.delete('/delete', async (req, res) => {
   }
 });
 
+router.get('/search', async (req, res) => {
+  const { q } = req.query;
+
+  if (!q) return res.status(400).json({ error: 'Parâmetro de busca ausente' });
+
+  try {
+    const users = await User.find({
+      username: { $regex: q, $options: 'i' }
+    }).select('username profileImage');
+
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ error: 'Erro ao buscar usuários' });
+  }
+});
+
+router.get('/public-profile', async (req, res) => {
+  const { username } = req.query;
+
+  try {
+    const user = await User.findOne({ username }).select('username name bio profileImage');
+    if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
+
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: 'Erro ao buscar perfil público' });
+  }
+});
+
+
 module.exports = router;

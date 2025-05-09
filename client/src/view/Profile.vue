@@ -2,6 +2,9 @@
     <div class="back-button">
         <button @click="$router.back()">← Voltar</button>
     </div>
+    <div class="back-button">
+        <button @click="$router.push('/menu')">Menu</button>
+    </div>
   <div class="profile-container">
     <div class="profile-header">
       <img
@@ -19,6 +22,12 @@
       </div>
     </div>
   </div>
+  <hr class="divider" />
+
+    <div class="no-posts-section">
+    <img src="/sem-publi.png" alt="Sem publicações" class="no-posts-image" />
+    <p class="no-posts-text">Você ainda não tem nenhuma publicação</p>
+    </div>
 </template>
 
 <script>
@@ -102,5 +111,26 @@ export default {
 .user-bio {
   font-style: italic;
   color: #555;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 40px 0 20px;
+}
+
+.no-posts-section {
+  text-align: center;
+  color: #777;
+}
+
+.no-posts-image {
+  width: 80px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.no-posts-text {
+  font-size: 16px;
 }
 </style>
