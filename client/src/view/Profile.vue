@@ -1,33 +1,38 @@
 <template>
-    <div class="back-button">
-        <button @click="$router.back()">← Voltar</button>
-    </div>
-    <div class="back-button">
+  <div class="wrap">
+    <div class="sideBar">
+      <div class="logo">
+        <img src="/foodLogo.png" class="logo-img" />
+        <span>Nothser</span>
+      </div>
+      <div class="menu-buttons">
+        <button @click="$router.push('/profile')">Perfil</button>
+        <hr />
         <button @click="$router.push('/menu')">Menu</button>
+      </div>
     </div>
-  <div class="profile-container">
-    <div class="profile-header">
-      <img
-        :src="profileImageUrl"
-        alt="Foto de perfil"
-        class="profile-image"
-      />
-      <div class="profile-info">
-        <div class="top-info">
-          <h2>{{ user.username }}</h2>
-          <button @click="$router.push('/editprofile')">Editar perfil</button>
+    <div class="profileColumn">
+      <div class="profile-container">
+        <div class="profile-header">
+          <img :src="profileImageUrl" alt="Foto de perfil" class="profile-image" />
+          <div class="profile-info">
+            <div class="top-info">
+              <h2>{{ user.username }}</h2>
+              <button @click="$router.push('/editprofile')">Editar perfil</button>
+            </div>
+            <div class="user-name">{{ user.name }}</div>
+            <div class="user-bio">{{ user.descricao }}</div>
+          </div>
         </div>
-        <div class="user-name">{{ user.name }}</div>
-        <div class="user-bio">{{ user.descricao }}</div>
+      </div>
+      <hr class="divider" />
+
+      <div class="no-posts-section">
+        <img src="/sem-publi.png" alt="Sem publicações" class="no-posts-image" />
+        <p class="no-posts-text">Você ainda não tem nenhuma publicação</p>
       </div>
     </div>
   </div>
-  <hr class="divider" />
-
-    <div class="no-posts-section">
-    <img src="/sem-publi.png" alt="Sem publicações" class="no-posts-image" />
-    <p class="no-posts-text">Você ainda não tem nenhuma publicação</p>
-    </div>
 </template>
 
 <script>
@@ -65,6 +70,75 @@ export default {
 </script>
 
 <style scoped>
+.profileColumn{
+  width: 100%;
+}
+.wrap {
+  display: flex;
+  min-height: 100vh;
+  font-family: sans-serif;
+}
+
+.sideBar {
+  width: 220px;
+  padding: 20px 10px;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 30px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+.logo-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.menu-buttons button {
+  all: unset;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+.menu-buttons button:hover {
+  background-color: #f0f0f0;
+}
+
+.menu-buttons hr {
+  width: 90%;
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 10px auto;
+}
+
+.menu-content {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
 .profile-container {
   max-width: 600px;
   margin: 50px auto;

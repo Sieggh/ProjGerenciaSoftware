@@ -3,7 +3,7 @@
     <div class="sideBar">
       <div class="logo">
         <img src="/foodLogo.png" class="logo-img" />
-        <span>MyApp</span>
+        <span>Nothser</span>
       </div>
       <div class="menu-buttons">
         <button @click="$router.push('/profile')">Perfil</button>
