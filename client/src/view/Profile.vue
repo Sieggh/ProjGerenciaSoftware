@@ -8,7 +8,7 @@
       <div class="menu-buttons">
         <button @click="$router.push('/profile')">Perfil</button>
         <hr />
-        <button @click="$router.push('/menu')">Menu</button>
+        <button @click="$router.push('/menu')">Início</button>
       </div>
     </div>
     <div class="profileColumn">
@@ -18,7 +18,7 @@
           <div class="profile-info">
             <div class="top-info">
               <h2>{{ user.username }}</h2>
-              <button @click="$router.push('/editprofile')">Editar perfil</button>
+              <button class="edit" @click="$router.push('/editprofile')">Editar perfil</button>
             </div>
             <div class="user-name">{{ user.name }}</div>
             <div class="user-bio">{{ user.descricao }}</div>
@@ -70,8 +70,20 @@ export default {
 </script>
 
 <style scoped>
+
+.edit{
+  border: none;
+  padding: 10px;
+  background-color: #c4ddfa;
+  border-radius: 8px;
+}
+.edit:hover{
+  cursor: pointer;
+  background-color: #b3d5fc;
+}
+
 .profileColumn{
-  width: 100%;
+  width: 80%;
 }
 .wrap {
   display: flex;
@@ -190,7 +202,11 @@ export default {
 .divider {
   border: none;
   border-top: 1px solid #ddd;
-  margin: 40px 0 20px;
+  padding: 1rem;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  
 }
 
 .no-posts-section {

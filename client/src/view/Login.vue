@@ -25,8 +25,8 @@ export default {
   data() {
     return {
       transitioning: false,
-      email: 'adm@adm.com', //deixar vazio depois ''
-      password: '123456'     //deixar vazio depois ''
+      email: '', //deixar vazio depois ''
+      password: ''     //deixar vazio depois ''
     }
   },
   methods: {
@@ -68,7 +68,7 @@ export default {
 </script>
 
 <style scoped>
-/* container geral full‐screen com flex em linha */
+
 .wrapper {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
