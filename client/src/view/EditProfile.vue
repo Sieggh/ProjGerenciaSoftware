@@ -2,9 +2,6 @@
   <div class="back-button">
     <button @click="$router.back()">← Voltar</button>
   </div>
-  <div class="back-button">
-    <button @click="$router.push('/menu')">Menu</button>
-  </div>
   <div class="profile-image-container">
     <img
       v-if="originalUser.profileImage"
@@ -93,17 +90,18 @@
         v-model="editableUser.password"
         type="password"
         />
-
+        
         <div v-if="!editingField">
-        <button @click="startEditing('email')">Alterar e-mail</button>
-        <button @click="startEditing('password')">Alterar senha</button>
+          <button class="first" @click="startEditing('email')">Alterar e-mail</button>
+          <button @click="startEditing('password')">Alterar senha</button>
         </div>
-
+        
         <div v-else>
-        <button v-if="editingField === 'email'" @click="updateEmail">Salvar e-mail</button>
-        <button v-if="editingField === 'password'" @click="updatePassword">Salvar senha</button>
-        <button @click="cancelEditing">Cancelar</button>
+          <button class="first" v-if="editingField === 'email'" @click="updateEmail">Salvar e-mail</button>
+          <button class="first" v-if="editingField === 'password'" @click="updatePassword">Salvar senha</button>
+          <button @click="cancelEditing">Cancelar</button>
         </div>
+          
 
         <hr />
 
@@ -345,6 +343,13 @@
 </script>
   
 <style scoped>
+  label{
+    font-weight: 600;
+  }
+  .first{
+    margin-right: 1rem;
+  }
+  
   .profile {
     max-width: 500px;
     margin: 40px auto;
@@ -353,17 +358,25 @@
   }
   input {
     margin-bottom: 10px;
-    padding: 8px;
+    padding: 9px;
+    border-radius: 8px;
+    border-color:black ;
   }
   button {
     margin-top: 10px;
     padding: 10px;
+    border-radius: 8px;
+  }
+  button:hover{
+    cursor: pointer;
+    background-color: #dfdfdf;
   }
   input[readonly] {
     background-color: #f0f0f0;
     color: #888;
     cursor: not-allowed;
     border: 1px solid #ccc;
+    
     }
 
   .profile-image-container {
@@ -389,11 +402,14 @@
 }
 
 .image-actions .remove {
-  background-color: #d33;
+  background-color: rgb(214, 90, 90);
   color: white;
   border: none;
   padding: 6px 12px;
   cursor: pointer;
+}
+.image-actions .remove:hover{
+  background-color: rgb(216, 74, 74);
 }
 
 .username-section {
